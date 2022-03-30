@@ -106,3 +106,12 @@ class SecuenciaTramas:
 
         def get_secuences(self):
             return self.secuences_list
+
+        def get_recep_info(self):
+            return self.info_receptor
+
+        def get_trans_info(self):
+            return self.info_transmisor
+
+        def get_resp_info(self):
+            return self.info_respuesta

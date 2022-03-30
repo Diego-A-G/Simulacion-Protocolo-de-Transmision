@@ -245,6 +245,15 @@ class Interfaz(Frame):
         secuencia_btn = Button(text="Ver secuencia de tramas", command=self.show_sequence)
         secuencia_btn.place(x=350, y=470)
 
+    def show_trans_info(self):
+        print("cargando trans info")
+
+    def show_recep_info(self):
+        print("cargando recep info")
+
+    def show_resp_info(self):
+        print("cargando resp info")
+
     def ack_clicked(self):
         print("ack")
 
