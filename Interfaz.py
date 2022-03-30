@@ -14,7 +14,7 @@ class Interfaz(Frame):
         self.primer_envio = True
         self.secuencia_tramas = None
         self.secuences =[]
-        self.resp_btn = Button(self, text="Responder", command=self.resp_message)
+        self.resp_btn = Button(self, text="Responder", command=self.resp_message, state=DISABLED)
         self.send_btn = Button(self, text="Enviar", command=self.send_message)
         self.config(width=1100, height=500)
         self.parent = master
@@ -271,18 +271,22 @@ class Interfaz(Frame):
             self.secuences = self.secuencia_tramas.get_secuences()
             self.show_tramas()
 
+        self.send_btn['state'] = DISABLED
+        self.resp_btn['state'] = NORMAL
+
     def show_tramas(self):
         self.listbox.delete(0,'end')
         for i in range(len(self.secuences)):
             self.listbox.insert("end", self.secuences[i])
 
     def resp_message(self):
-        if self.primer_envio:
-            print("Se requiere hacer primero un envio")
-        else:
+        if not self.primer_envio:
             self.secuencia_tramas.responder()
             self.secuences = self.secuencia_tramas.get_secuences()
             self.show_tramas()
+
+        self.send_btn['state'] = NORMAL
+        self.resp_btn['state'] = DISABLED
 
     def show_trans_info(self,trama, mensaje):
         print("cargando trans info")
