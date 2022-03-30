@@ -1,5 +1,6 @@
 from tkinter import *
 
+from SecuenciaTramas import SecuenciaTramas
 from scrollView import scrollView
 
 
@@ -7,7 +8,15 @@ class Interfaz(Frame):
 
     def __init__(self, master, *args, **kwargs):
         Frame.__init__(self, master, *args, **kwargs)
-        self.config(width=800, height=500)
+        self.listbox = Listbox(self, width=50, height=30)
+        self.frames = StringVar()
+        self.message = StringVar()
+        self.primer_envio = True
+        self.secuencia_tramas = None
+        self.secuences =[]
+        self.resp_btn = Button(self, text="Responder", command=self.resp_message)
+        self.send_btn = Button(self, text="Enviar", command=self.send_message)
+        self.config(width=1100, height=500)
         self.parent = master
         self.createWidgets()
         Frame.pack(self)
@@ -20,15 +29,15 @@ class Interfaz(Frame):
         message_lbl = Label(self, text="MENSAJE A TRANSMITIR:", font=("Arial", 10))
         message_lbl.place(x=10, y=40)
 
-        message = StringVar()
-        message_entry = Entry(self, width=30, textvariable=message)
+        message_entry = Entry(self, width=30, textvariable=self.message)
+        self.message.set("hola como estas")
         message_entry.place(x=180, y=40)
 
         frames_lbl = Label(self, text="NUMERO DE FRAMES:", font=("Arial", 10))
         frames_lbl.place(x=390, y=40)
 
-        frames = StringVar()
-        frames_entry = Entry(self, width=3, textvariable=frames)
+        frames_entry = Entry(self, width=3, textvariable=self.frames)
+        self.frames.set("3")
         frames_entry.place(x=540, y=40)
 
         indic_lbl = Label(self, text="INDICADOR", font=("Arial", 8))
@@ -124,6 +133,8 @@ class Interfaz(Frame):
         indic2 = StringVar()
         indic2_entry = Entry(self, width=12, textvariable=indic2)
         indic2_entry.place(x=540, y=120)
+
+        self.send_btn.place(x=640,y=115)
 
         tdd_lbl = Label(self, text="SEMANTICA: TRAMA DE DATOS", font=("Arial", 10))
         tdd_lbl.place(x=100, y=180)
@@ -232,6 +243,8 @@ class Interfaz(Frame):
         indic2_resp_entry = Entry(self, width=12, textvariable=indic2_resp)
         indic2_resp_entry.place(x=540, y=400)
 
+        self.resp_btn.place(x=640, y=385)
+
         tdd_lbl = Label(self, text="SEMANTICA: TRAMA DE CONTROL Y RECIBIDA CON EXITO ", font=("Arial", 10))
         tdd_lbl.place(x=100, y=430)
 
@@ -242,16 +255,42 @@ class Interfaz(Frame):
         message_received_entry = Entry(self, width=22, textvariable=message_received)
         message_received_entry.place(x=150, y=470)
 
-        secuencia_btn = Button(text="Ver secuencia de tramas", command=self.show_sequence)
-        secuencia_btn.place(x=350, y=470)
+        self.listbox.place(x=750,y=50)
 
-    def show_trans_info(self):
+    def send_message(self):
+        if self.primer_envio:
+            mess = self.message.get()
+            frm = int(self.frames.get())
+            self.secuencia_tramas = SecuenciaTramas(mess, frm)
+            self.secuencia_tramas.enviar()
+            self.secuences = self.secuencia_tramas.get_secuences()
+            self.show_tramas()
+            self.primer_envio = False
+        else:
+            self.secuencia_tramas.enviar()
+            self.secuences = self.secuencia_tramas.get_secuences()
+            self.show_tramas()
+
+    def show_tramas(self):
+        self.listbox.delete(0,'end')
+        for i in range(len(self.secuences)):
+            self.listbox.insert("end", self.secuences[i])
+
+    def resp_message(self):
+        if self.primer_envio:
+            print("Se requiere hacer primero un envio")
+        else:
+            self.secuencia_tramas.responder()
+            self.secuences = self.secuencia_tramas.get_secuences()
+            self.show_tramas()
+
+    def show_trans_info(self,trama, mensaje):
         print("cargando trans info")
 
-    def show_recep_info(self):
+    def show_recep_info(self,trama, mensaje):
         print("cargando recep info")
 
-    def show_resp_info(self):
+    def show_resp_info(self,trama, mensaje):
         print("cargando resp info")
 
     def ack_clicked(self):
