@@ -1,37 +1,22 @@
 from tkinter import *
 
+from SecuenciaTramas import SecuenciaTramas
 from scrollView import scrollView
-
-
-def ack_clicked():
-    print("ack")
-
-
-def enq_clicked():
-    print("enq")
-
-
-def ctr_clicked():
-    print("ctr")
-
-
-def dat_clicked():
-    print("dat")
-
-
-def ppt_clicked():
-    print("ppt")
-
-
-def lpt_clicked():
-    print("lpt")
 
 
 class Interfaz(Frame):
 
     def __init__(self, master, *args, **kwargs):
         Frame.__init__(self, master, *args, **kwargs)
-        self.config(width=800, height=500)
+        self.listbox = Listbox(self, width=50, height=30)
+        self.frames = StringVar()
+        self.message = StringVar()
+        self.primer_envio = True
+        self.secuencia_tramas = None
+        self.secuences =[]
+        self.resp_btn = Button(self, text="Responder", command=self.resp_message, state=DISABLED)
+        self.send_btn = Button(self, text="Enviar", command=self.send_message)
+        self.config(width=1100, height=500)
         self.parent = master
         self.createWidgets()
         Frame.pack(self)
@@ -44,15 +29,15 @@ class Interfaz(Frame):
         message_lbl = Label(self, text="MENSAJE A TRANSMITIR:", font=("Arial", 10))
         message_lbl.place(x=10, y=40)
 
-        message = StringVar()
-        message_entry = Entry(self, width=30, textvariable=message)
+        message_entry = Entry(self, width=30, textvariable=self.message)
+        self.message.set("hola como estas")
         message_entry.place(x=180, y=40)
 
         frames_lbl = Label(self, text="NUMERO DE FRAMES:", font=("Arial", 10))
         frames_lbl.place(x=390, y=40)
 
-        frames = StringVar()
-        frames_entry = Entry(self, width=3, textvariable=frames)
+        frames_entry = Entry(self, width=3, textvariable=self.frames)
+        self.frames.set("3")
         frames_entry.place(x=540, y=40)
 
         indic_lbl = Label(self, text="INDICADOR", font=("Arial", 8))
@@ -70,7 +55,7 @@ class Interfaz(Frame):
         ack_entry.place(x=100, y=120)
 
         ack_var = BooleanVar(self)
-        ack_ckb = Checkbutton(self, variable=ack_var, command=ack_clicked)
+        ack_ckb = Checkbutton(self, variable=ack_var, command=self.ack_clicked)
         ack_ckb.place(x=100, y=150)
 
         enq_lbl = Label(self, text="ENQ", font=("Arial", 8))
@@ -81,7 +66,7 @@ class Interfaz(Frame):
         enq_entry.place(x=150, y=120)
 
         enq_var = BooleanVar(self)
-        enq_ckb = Checkbutton(self, variable=enq_var, command=enq_clicked)
+        enq_ckb = Checkbutton(self, variable=enq_var, command=self.enq_clicked)
         enq_ckb.place(x=150, y=150)
 
         ctr_lbl = Label(self, text="CTR", font=("Arial", 8))
@@ -92,7 +77,7 @@ class Interfaz(Frame):
         ctr_entry.place(x=200, y=120)
 
         ctr_var = BooleanVar(self)
-        ctr_ckb = Checkbutton(self, variable=ctr_var, command=ctr_clicked)
+        ctr_ckb = Checkbutton(self, variable=ctr_var, command=self.ctr_clicked)
         ctr_ckb.place(x=200, y=150)
 
         dat_lbl = Label(self, text="DAT", font=("Arial", 8))
@@ -103,7 +88,7 @@ class Interfaz(Frame):
         dat_entry.place(x=250, y=120)
 
         dat_var = BooleanVar(self)
-        dat_ckb = Checkbutton(self, variable=dat_var, command=dat_clicked)
+        dat_ckb = Checkbutton(self, variable=dat_var, command=self.dat_clicked)
         dat_ckb.place(x=250, y=150)
 
         ppt_lbl = Label(self, text="PPT", font=("Arial", 8))
@@ -114,7 +99,7 @@ class Interfaz(Frame):
         ppt_entry.place(x=300, y=120)
 
         ppt_var = BooleanVar(self)
-        ppt_ckb = Checkbutton(self, variable=ppt_var, command=ppt_clicked)
+        ppt_ckb = Checkbutton(self, variable=ppt_var, command=self.ppt_clicked)
         ppt_ckb.place(x=300, y=150)
 
         lpt_lbl = Label(self, text="LPT", font=("Arial", 8))
@@ -125,7 +110,7 @@ class Interfaz(Frame):
         lpt_entry.place(x=350, y=120)
 
         lpt_var = BooleanVar(self)
-        lpt_ckb = Checkbutton(self, variable=lpt_var, command=lpt_clicked)
+        lpt_ckb = Checkbutton(self, variable=lpt_var, command=self.lpt_clicked)
         lpt_ckb.place(x=3500, y=150)
 
         num_lbl = Label(self, text="NUM", font=("Arial", 8))
@@ -148,6 +133,8 @@ class Interfaz(Frame):
         indic2 = StringVar()
         indic2_entry = Entry(self, width=12, textvariable=indic2)
         indic2_entry.place(x=540, y=120)
+
+        self.send_btn.place(x=640,y=115)
 
         tdd_lbl = Label(self, text="SEMANTICA: TRAMA DE DATOS", font=("Arial", 10))
         tdd_lbl.place(x=100, y=180)
@@ -256,6 +243,8 @@ class Interfaz(Frame):
         indic2_resp_entry = Entry(self, width=12, textvariable=indic2_resp)
         indic2_resp_entry.place(x=540, y=400)
 
+        self.resp_btn.place(x=640, y=385)
+
         tdd_lbl = Label(self, text="SEMANTICA: TRAMA DE CONTROL Y RECIBIDA CON EXITO ", font=("Arial", 10))
         tdd_lbl.place(x=100, y=430)
 
@@ -266,9 +255,66 @@ class Interfaz(Frame):
         message_received_entry = Entry(self, width=22, textvariable=message_received)
         message_received_entry.place(x=150, y=470)
 
-        secuencia_btn = Button(text="Ver secuencia de tramas", command=show_sequence)
-        secuencia_btn.place(x=350, y=470)
+        self.listbox.place(x=750,y=50)
 
+    def send_message(self):
+        if self.primer_envio:
+            mess = self.message.get()
+            frm = int(self.frames.get())
+            self.secuencia_tramas = SecuenciaTramas(mess, frm)
+            self.secuencia_tramas.enviar()
+            self.secuences = self.secuencia_tramas.get_secuences()
+            self.show_tramas()
+            self.primer_envio = False
+        else:
+            self.secuencia_tramas.enviar()
+            self.secuences = self.secuencia_tramas.get_secuences()
+            self.show_tramas()
 
-def show_sequence():
-    app = scrollView()
+        self.send_btn['state'] = DISABLED
+        self.resp_btn['state'] = NORMAL
+
+    def show_tramas(self):
+        self.listbox.delete(0,'end')
+        for i in range(len(self.secuences)):
+            self.listbox.insert("end", self.secuences[i])
+
+    def resp_message(self):
+        if not self.primer_envio:
+            self.secuencia_tramas.responder()
+            self.secuences = self.secuencia_tramas.get_secuences()
+            self.show_tramas()
+
+        self.send_btn['state'] = NORMAL
+        self.resp_btn['state'] = DISABLED
+
+    def show_trans_info(self,trama, mensaje):
+        print("cargando trans info")
+
+    def show_recep_info(self,trama, mensaje):
+        print("cargando recep info")
+
+    def show_resp_info(self,trama, mensaje):
+        print("cargando resp info")
+
+    def ack_clicked(self):
+        print("ack")
+
+    def enq_clicked(self):
+        print("enq")
+
+    def ctr_clicked(self):
+        print("ctr")
+
+    def dat_clicked(self):
+        print("dat")
+
+    def ppt_clicked(self):
+        print("ppt")
+
+    def lpt_clicked(self):
+        print("lpt")
+
+    def show_sequence(self):
+        secuences = []
+        app = scrollView(secuences)
