@@ -1,8 +1,5 @@
-from tkinter import *
-
-from Interfaz import Interfaz
-
-from SecuenciaTramas import SecuenciaTramas 
+from SecuenciaTramas import SecuenciaTramas
+from scrollView import scrollView
 
 # PTD = Tk()
 # PTD.title("Protocolo de Transmision de Datos")
@@ -13,6 +10,7 @@ from SecuenciaTramas import SecuenciaTramas
 # Interfaz(PTD)
 # # Calculator
 # PTD.mainloop()
+
 mensaje= "hola como estas"
 frames = 3
 st =SecuenciaTramas(mensaje,frames)
@@ -25,7 +23,7 @@ st.responder()
 st.enviar()
 st.responder()
 
-
+sv = scrollView(st.get_secuences())
 
 
 

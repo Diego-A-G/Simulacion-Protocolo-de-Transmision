@@ -3,30 +3,6 @@ from tkinter import *
 from scrollView import scrollView
 
 
-def ack_clicked():
-    print("ack")
-
-
-def enq_clicked():
-    print("enq")
-
-
-def ctr_clicked():
-    print("ctr")
-
-
-def dat_clicked():
-    print("dat")
-
-
-def ppt_clicked():
-    print("ppt")
-
-
-def lpt_clicked():
-    print("lpt")
-
-
 class Interfaz(Frame):
 
     def __init__(self, master, *args, **kwargs):
@@ -70,7 +46,7 @@ class Interfaz(Frame):
         ack_entry.place(x=100, y=120)
 
         ack_var = BooleanVar(self)
-        ack_ckb = Checkbutton(self, variable=ack_var, command=ack_clicked)
+        ack_ckb = Checkbutton(self, variable=ack_var, command=self.ack_clicked)
         ack_ckb.place(x=100, y=150)
 
         enq_lbl = Label(self, text="ENQ", font=("Arial", 8))
@@ -81,7 +57,7 @@ class Interfaz(Frame):
         enq_entry.place(x=150, y=120)
 
         enq_var = BooleanVar(self)
-        enq_ckb = Checkbutton(self, variable=enq_var, command=enq_clicked)
+        enq_ckb = Checkbutton(self, variable=enq_var, command=self.enq_clicked)
         enq_ckb.place(x=150, y=150)
 
         ctr_lbl = Label(self, text="CTR", font=("Arial", 8))
@@ -92,7 +68,7 @@ class Interfaz(Frame):
         ctr_entry.place(x=200, y=120)
 
         ctr_var = BooleanVar(self)
-        ctr_ckb = Checkbutton(self, variable=ctr_var, command=ctr_clicked)
+        ctr_ckb = Checkbutton(self, variable=ctr_var, command=self.ctr_clicked)
         ctr_ckb.place(x=200, y=150)
 
         dat_lbl = Label(self, text="DAT", font=("Arial", 8))
@@ -103,7 +79,7 @@ class Interfaz(Frame):
         dat_entry.place(x=250, y=120)
 
         dat_var = BooleanVar(self)
-        dat_ckb = Checkbutton(self, variable=dat_var, command=dat_clicked)
+        dat_ckb = Checkbutton(self, variable=dat_var, command=self.dat_clicked)
         dat_ckb.place(x=250, y=150)
 
         ppt_lbl = Label(self, text="PPT", font=("Arial", 8))
@@ -114,7 +90,7 @@ class Interfaz(Frame):
         ppt_entry.place(x=300, y=120)
 
         ppt_var = BooleanVar(self)
-        ppt_ckb = Checkbutton(self, variable=ppt_var, command=ppt_clicked)
+        ppt_ckb = Checkbutton(self, variable=ppt_var, command=self.ppt_clicked)
         ppt_ckb.place(x=300, y=150)
 
         lpt_lbl = Label(self, text="LPT", font=("Arial", 8))
@@ -125,7 +101,7 @@ class Interfaz(Frame):
         lpt_entry.place(x=350, y=120)
 
         lpt_var = BooleanVar(self)
-        lpt_ckb = Checkbutton(self, variable=lpt_var, command=lpt_clicked)
+        lpt_ckb = Checkbutton(self, variable=lpt_var, command=self.lpt_clicked)
         lpt_ckb.place(x=3500, y=150)
 
         num_lbl = Label(self, text="NUM", font=("Arial", 8))
@@ -266,9 +242,27 @@ class Interfaz(Frame):
         message_received_entry = Entry(self, width=22, textvariable=message_received)
         message_received_entry.place(x=150, y=470)
 
-        secuencia_btn = Button(text="Ver secuencia de tramas", command=show_sequence)
+        secuencia_btn = Button(text="Ver secuencia de tramas", command=self.show_sequence)
         secuencia_btn.place(x=350, y=470)
 
+    def ack_clicked(self):
+        print("ack")
 
-def show_sequence():
-    app = scrollView()
+    def enq_clicked(self):
+        print("enq")
+
+    def ctr_clicked(self):
+        print("ctr")
+
+    def dat_clicked(self):
+        print("dat")
+
+    def ppt_clicked(self):
+        print("ppt")
+
+    def lpt_clicked(self):
+        print("lpt")
+
+    def show_sequence(self):
+        secuences = []
+        app = scrollView(secuences)
