@@ -5,7 +5,7 @@ from scrollView import scrollView
 
 
 class Interfaz(Frame):
-
+# ------------------------DEFINIR VARIABLES---------------------------------------
     def __init__(self, master, *args, **kwargs):
         Frame.__init__(self, master, *args, **kwargs)
         self.listbox = Listbox(self, width=50, height=30)
@@ -52,7 +52,7 @@ class Interfaz(Frame):
         self.createWidgets()
         Frame.pack(self)
 
-
+# -------------------------------CREACIÓN VENTAJAS  INTERFAZ-------------------
     def createWidgets(self):
 
         title_lbl = Label(self, text="TRANSMISOR", font=("Arial", 12))
@@ -280,7 +280,9 @@ class Interfaz(Frame):
         message_received_entry.place(x=150, y=470)
 
         self.listbox.place(x=750,y=50)
-
+        
+# -------------------------------CREACIÓN METODOS-------------------------------
+# --------------------------------ENVIO DE MENSAJE------------------------------
     def send_message(self):
         if self.primer_envio:
             mess = self.message.get()
@@ -307,11 +309,14 @@ class Interfaz(Frame):
         if self.secuencia_tramas.cont_envio==self.secuencia_tramas.frm_recibido+1:
             self.send_btn['state'] = DISABLED
 
+#------------------------------FIN ENVIO DE MENSAJE------------------------------
+# ---------------------------METODO ESCRITURA EN VENTANA PRINCIPAL---------------
     def show_tramas(self):
         self.listbox.delete(0,'end')
         for i in range(len(self.secuences)):
             self.listbox.insert("end", self.secuences[i])
-
+#---------------------------FIN ESCRITURA EN VENTANA PRINCIPAL-------------------
+#---------------------------METODO RESPUESTA DE MENSAJE--------------------------
     def resp_message(self):
         index=self.secuencia_tramas.cont_envio + self.secuencia_tramas.cont_resp
         trama=self.secuencia_tramas.secuences_list[index-1]
@@ -328,19 +333,16 @@ class Interfaz(Frame):
         if self.secuencia_tramas.cont_envio==self.secuencia_tramas.frm_recibido+1:
             self.send_btn['state'] = DISABLED
             self.resp_btn['state'] = DISABLED
-
+#-----------------------FIN METODO RESPUESTA DE MENSAJE------------------------           
+#-----------------------METODO QUE MUESTRA LAS TRAMAS Y ACTUALIZA---------------
     def show_trans_info(self):
         index=self.secuencia_tramas.cont_envio + self.secuencia_tramas.cont_resp
         trama=self.secuencia_tramas.secuences_list[index-1]
         self.mostrar_tramas()
         self.validar_tramas()
-        self.limpiar_ventanas()
         print("cargando trans info")
     
-    
-    def limpiar_ventanas(self):
-        print("limpio")
-        
+#------------------------LLENADO DE VENTANAS------------------------------------   
     
     def mostrar_tramas(self):
         # -----------------------TRANSMISOR-----------------------------
@@ -362,6 +364,7 @@ class Interfaz(Frame):
         self.lpr.set(self.secuencia_tramas.trama_inicial.LPR)
         # print("CTR"self.secuencia_tramas.trama_inicial.CRT)
         # print("PPT"self.secuencia_tramas.trama_inicial.PPT)
+#---------------------FIN LLENADO DE VENTANAS------------------------------------  
 
         
     
@@ -397,7 +400,7 @@ class Interfaz(Frame):
         else:
             self.lpr_var.set(False) 
 
-        
+#------------------------- LLENADO DE VENTANAS RECEPTOR -------------------------      
 
     def show_recep_info(self):
         # -----------------------RECEPTOR-------------------------------
@@ -406,7 +409,9 @@ class Interfaz(Frame):
         self.begin_trailer.set(self.secuencia_tramas.indicador)
         self.info_received.set(self.secuencia_tramas.info_transmisor)
         print("cargando recep info")
+#----------------------FIN LLENADO DE VENTANAS RECEPTOR -------------------------
 
+#------------------------- LLENADO DE VENTANAS RESPUESTA -------------------------
     def show_resp_info(self,index):
         # -----------------------RESPUESTA------------------------------
         self.indic_resp.set(self.secuencia_tramas.indicador)
@@ -427,6 +432,7 @@ class Interfaz(Frame):
         self.indic2_resp.set(self.secuencia_tramas.indicador)
         self.message_received.set(self.secuencia_tramas.palabra_partes)
         print("cargando resp info")
+#----------------------FIN LLENADO DE VENTANAS RESPUESTA ------------------------
 
     def ack_clicked(self):
         print("ack")

@@ -63,7 +63,7 @@ class SecuenciaTramas:
             self.lista_tramas.append(self.trama_inicial)
             self.secuences_list.append("Trama 1:(Tx) Control, listo para recibir")
 # --------------------------FIN PRIMER ENVIO------------------------------------
-        
+# --------------------------TRANSMISIÓN ENVIO------------------------------------     
         def transmitir_trama(self):
             self.trama_inicial=Trama()
             if self.cont_resp==self.frm_recibido:
@@ -88,7 +88,8 @@ class SecuenciaTramas:
             self.trama_inicial.ENQ = 1
             self.lista_tramas.append(self.trama_inicial)
             self.trama_inicial.NUM = self.cont_envio
-        
+# --------------------------TRANSMISIÓN ENVIO------------------------------------    
+#---------------------------RECEPCIÓN TRAMAS------------------------------------
         def recibir_trama(self):
             self.trama_inicial=Trama()
             self.trama_inicial.ACK = 1
@@ -104,7 +105,8 @@ class SecuenciaTramas:
             if self.cont_resp==self.frm_recibido:
                 self.secuences_list.append("-----EL ENVIO DEL MENSAJE HA FINALIZADO CON EXITO-----")
             print("mensaje recibido")
-            
+#---------------------------RECEPCIÓN TRAMAS------------------------------------
+# --------------------------METODO COMPLETO ENVIO-------------------------------          
 
         def enviar(self):
             if self.cont_envio==0:    
@@ -116,10 +118,8 @@ class SecuenciaTramas:
             elif self.cont_envio!=0: 
                 print(self.cont_resp,self.frm_recibido)
                 self.transmitir_trama()
-
-
-                
-            
+# ---------------------FIN  METODO COMPLETO ENVIO-------------------------------   
+# --------------------- METODO COMPLETO RESPUESTA-------------------------------           
 
         def responder(self):
             if self.cont_resp==0:
@@ -131,7 +131,9 @@ class SecuenciaTramas:
                 
             self.cont_envio= self.cont_envio+1
             self.cont_resp = self.cont_resp+1
+# --------------------- FIN METODO COMPLETO RESPUESTA-----------------------------
 
+  
         def get_secuences(self):
             return self.secuences_list
 
