@@ -75,7 +75,6 @@ class SecuenciaTramas:
             else:
                 self.trama_inicial.DAT = 1
                 self.lista_tramas.append(self.trama_inicial)
-                # self.trama_inicial.NUM = str(self.cont_envio)
                 self.secuences_list.append("Trama"+str(self.cont_envio)+":(Tx) Datos, Trama"+str(self.cont_envio))
                 self.info_transmisor=self.msj_recibido[self.cont_envio-1]
                 self.info_receptor=self.msj_recibido[self.cont_envio-1]
@@ -94,7 +93,6 @@ class SecuenciaTramas:
             self.trama_inicial=Trama()
             self.trama_inicial.ACK = 1
             self.trama_inicial.CTR = 1
-            # self.trama_inicial.NUM = str(self.cont_envio)
             self.lista_tramas.append(self.trama_inicial)
             self.info_respuesta=self.msj_recibido[self.cont_envio-1]
             
@@ -111,9 +109,6 @@ class SecuenciaTramas:
         def enviar(self):
             if self.cont_envio==0:    
                 self.solicitar_permiso()
-                
-            # if self.cont_resp==self.frm_recibido+2:
-            #     self.transmitir_ultima_trama()            
             
             elif self.cont_envio!=0: 
                 print(self.cont_resp,self.frm_recibido)

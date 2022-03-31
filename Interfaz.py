@@ -1,7 +1,5 @@
 from tkinter import *
 
-from scrollView import scrollView
-
 from SecuenciaTramas import SecuenciaTramas
 
 
@@ -456,6 +454,3 @@ class Interfaz(Frame):
     def lpr_clicked(self):
         print("lpr")
 
-    def show_sequence(self):
-        secuences = []
-        app = scrollView(secuences)
