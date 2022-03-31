@@ -1,7 +1,8 @@
 from tkinter import *
 
-from SecuenciaTramas import SecuenciaTramas
 from scrollView import scrollView
+
+from SecuenciaTramas import SecuenciaTramas
 
 
 class Interfaz(Frame):
@@ -276,11 +277,14 @@ class Interfaz(Frame):
         message_received_lbl.place(x=10, y=470)
 
         
-        message_received_entry = Entry(self, width=22, textvariable=self.message_received,state=DISABLED)
+        message_received_entry = Entry(self, width=42, textvariable=self.message_received,state=DISABLED)
         message_received_entry.place(x=150, y=470)
 
-        self.listbox.place(x=750,y=50)
-        
+        semantica_title_lbl = Label(self, text="SEMANTICA: TRAMA DE CONTROL Y RECIBIDA CON EXITO ", font=("Arial", 10))
+        semantica_title_lbl.place(x=750, y=30)
+
+        self.listbox.place(x=750,y=60)
+
 # -------------------------------CREACIÓN METODOS-------------------------------
 # --------------------------------ENVIO DE MENSAJE------------------------------
     def send_message(self):

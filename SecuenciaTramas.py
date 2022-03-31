@@ -61,7 +61,7 @@ class SecuenciaTramas:
             self.trama_inicial.LPR = 1
             self.trama_inicial.CTR = 1
             self.lista_tramas.append(self.trama_inicial)
-            self.secuences_list.append("Trama 1:(Tx) Control, listo para recibir")
+            self.secuences_list.append("Trama 1:(Rx) Control, listo para recibir")
 # --------------------------FIN PRIMER ENVIO------------------------------------
 # --------------------------TRANSMISIÓN ENVIO------------------------------------     
         def transmitir_trama(self):
